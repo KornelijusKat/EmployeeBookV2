@@ -1,0 +1,40 @@
+﻿@model EmployeeBook.ViewModels.ViewModel
+
+<h1>Edit Profile</h1>
+
+@using (Html.BeginForm("EditPerson", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.FirstName)
+        @Html.TextBoxFor(model => model.personImage.FirstName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.LastName)
+        @Html.TextBoxFor(model => model.personImage.LastName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.Email)
+        @Html.TextBoxFor(model => model.personImage.Email, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.PersonCode)
+        @Html.TextBoxFor(model => model.personImage.PersonCode, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.TelephoneNumber)
+        @Html.TextBoxFor(model => model.personImage.TelephoneNumber, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.personImage.ProfilePicture)
+        @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file" })
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-primary" />
+}

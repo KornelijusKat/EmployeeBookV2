@@ -1,0 +1,53 @@
+﻿@model EmployeeBook.Dto.PersonImage
+
+@{
+    ViewData["Title"] = "CreateProfile";
+}
+
+@using (Html.BeginForm("CreateProfile", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName)
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName)
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PersonCode)
+        @Html.TextBoxFor(model => model.PersonCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PersonCode, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TelephoneNumber)
+        @Html.TextBoxFor(model => model.TelephoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TelephoneNumber, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email)
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProfilePicture)
+        <input type="file" name="ProfilePicture" id="ProfilePicture" class="form-control" />
+        @Html.ValidationMessageFor(model => model.ProfilePicture, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    <div>
+    </div>
+
+}

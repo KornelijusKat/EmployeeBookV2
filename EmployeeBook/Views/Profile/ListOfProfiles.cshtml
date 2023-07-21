@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Person>
+
+@{
+    ViewData["Title"] = "ListOfProfiles";
+}
+
+<h1>Collection of Profiles</h1>
+
+<div class="card-deck">
+    @foreach (var item in Model)
+    {
+        Guid Id = Guid.NewGuid();
+        Id = item.Id;
+        string imageBase64 = Convert.ToBase64String(item.ProfilePicture);
+        string imageSrc = string.Format("data:image/png;base64,{0}", imageBase64);
+        TempData["Id"] = item.Id;
+        <div class="card">
+            <img src="@imageSrc" class="card-img-top" alt="Image">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</h5>
+                <p class="card-text">
+                    <strong>Person Code:</strong> @Html.DisplayFor(modelItem => item.PersonCode)<br />
+                    <strong>Telephone Number:</strong> @Html.DisplayFor(modelItem => item.TelephoneNumber)<br />
+                    <strong>Email:</strong> @Html.DisplayFor(modelItem => item.Email)
+                </p>
+                <div class="card-footer">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button id="Delete" onclick="ActivateProfileDelete(`@Id`)">Delete</button>
+                        <button id="Edit" onclick="ActivateProfileEdit('@Id')">Edit</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+   
+</div>
+@section scripts{
+    <script src="~/js/site.js"></script>
+}
