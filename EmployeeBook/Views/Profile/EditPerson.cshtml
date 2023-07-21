@@ -34,8 +34,6 @@
     <div class="form-group">
         @Html.LabelFor(model => model.personImage.ProfilePicture)
         @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file"})
-        @Html.ValidationMessageFor(model => model.personImage.ProfilePicture, "", new { @class = "text-danger" })
-
     </div>
    
     <input type="submit" value="Save" class="btn btn-primary" />
