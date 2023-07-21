@@ -12,12 +12,12 @@ namespace EmployeeBook.Models
 {
     public class DbContext :IDbContext
     {
-        public string ConnectionString { get; set; }
-
-      
+        public string ConnectionString { get; set; } 
         private MySqlConnection GetConnection()
         {
-            return new MySqlConnection(@"server = localhost; port = 3306;user=root; password=test;database=worker");
+            var builder = WebApplication.CreateBuilder();
+            string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+            return new MySqlConnection(connString);
         }
         public Person GetProfile(Guid userId)
         {
@@ -112,55 +112,58 @@ namespace EmployeeBook.Models
         }
         public void EditPerson(Person person)
         {
-            using (var sqlCon = GetConnection())
+            if (person.FirstName != null)
             {
-                sqlCon.Open();
-
-                string query = "UPDATE persons SET";
-                var parameters = new List<MySqlParameter>();
-
-                if (!string.IsNullOrEmpty(person.FirstName))
+                using (var sqlCon = GetConnection())
                 {
-                    query += " FirstName = @FirstName,";
-                    parameters.Add(new MySqlParameter("@FirstName", person.FirstName));
-                }
+                    sqlCon.Open();
 
-                if (!string.IsNullOrEmpty(person.LastName))
-                {
-                    query += " LastName = @LastName,";
-                    parameters.Add(new MySqlParameter("@LastName", person.LastName));
-                }
+                    string query = "UPDATE persons SET";
+                    var parameters = new List<MySqlParameter>();
 
-                if (!string.IsNullOrEmpty(person.TelephoneNumber))
-                {
-                    query += " TelephoneNumber = @TelephoneNumber,";
-                    parameters.Add(new MySqlParameter("@TelephoneNumber", person.TelephoneNumber));
-                }
-                if (!string.IsNullOrEmpty(person.PersonCode))
-                {
-                    query += " PersonCode = @PersonCode,";
-                    parameters.Add(new MySqlParameter("@PersonCode", person.PersonCode));
-                }
-                if (!string.IsNullOrEmpty(person.Email))
-                {
-                    query += " Email = @Email,";
-                    parameters.Add(new MySqlParameter("@Email", person.Email));
-                }
+                    if (!string.IsNullOrEmpty(person.FirstName))
+                    {
+                        query += " FirstName = @FirstName,";
+                        parameters.Add(new MySqlParameter("@FirstName", person.FirstName));
+                    }
 
-                if (person.ProfilePicture != null && person.ProfilePicture.Length > 0)
-                {
-                    query += " ProfilePicture = @ProfilePicture,";
-                    parameters.Add(new MySqlParameter("@ProfilePicture", person.ProfilePicture));
-                }
-                query = query.TrimEnd(',');
-                query += " WHERE Id = @Id";
-                parameters.Add(new MySqlParameter("@Id", person.Id));
+                    if (!string.IsNullOrEmpty(person.LastName))
+                    {
+                        query += " LastName = @LastName,";
+                        parameters.Add(new MySqlParameter("@LastName", person.LastName));
+                    }
 
-                using (var cmd = new MySqlCommand(query, sqlCon))
-                {
-                    cmd.Parameters.AddRange(parameters.ToArray());
+                    if (!string.IsNullOrEmpty(person.TelephoneNumber))
+                    {
+                        query += " TelephoneNumber = @TelephoneNumber,";
+                        parameters.Add(new MySqlParameter("@TelephoneNumber", person.TelephoneNumber));
+                    }
+                    if (!string.IsNullOrEmpty(person.PersonCode))
+                    {
+                        query += " PersonCode = @PersonCode,";
+                        parameters.Add(new MySqlParameter("@PersonCode", person.PersonCode));
+                    }
+                    if (!string.IsNullOrEmpty(person.Email))
+                    {
+                        query += " Email = @Email,";
+                        parameters.Add(new MySqlParameter("@Email", person.Email));
+                    }
 
-                    cmd.ExecuteNonQuery();
+                    if (person.ProfilePicture != null && person.ProfilePicture.Length > 0)
+                    {
+                        query += " ProfilePicture = @ProfilePicture,";
+                        parameters.Add(new MySqlParameter("@ProfilePicture", person.ProfilePicture));
+                    }
+                    query = query.TrimEnd(',');
+                    query += " WHERE Id = @Id";
+                    parameters.Add(new MySqlParameter("@Id", person.Id));
+
+                    using (var cmd = new MySqlCommand(query, sqlCon))
+                    {
+                        cmd.Parameters.AddRange(parameters.ToArray());
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -202,16 +205,9 @@ namespace EmployeeBook.Models
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
 
-                    if (rowsAffected > 0)
-                    {
-                        // Update successful
-                    }
-                    else
-                    {
-                        // Update failed or no records matched the PersonCode
-                    }
+           
                 }
             }
         }
@@ -367,6 +363,16 @@ namespace EmployeeBook.Models
                     return true;
                 }
                 return false;
+            }
+        }
+        public void DeleteProfile(Guid Id)
+        {
+            using (MySqlConnection sqlCon = GetConnection())
+            {
+                sqlCon.Open();
+                MySqlCommand cmd = new MySqlCommand("DELETE FROM persons WHERE Id = @Id", sqlCon);
+                cmd.Parameters.AddWithValue("Id", Id);
+                cmd.ExecuteNonQuery();
             }
         }
     }

@@ -34,11 +34,7 @@ namespace EmployeeBook.ImageService
         }
         public Image ByteArrayToImage(byte[] imageBytes)
         {
-            //ImageConverter converter = new ImageConverter();
-            //Image myImage = (Image)converter.ConvertTo(imageBytes, typeof(Image));
-            //return myImage;
             Image image = Image.FromStream(new MemoryStream(imageBytes));
-
             return image;
         }
 

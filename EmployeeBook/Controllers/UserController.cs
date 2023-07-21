@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using System.Data;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 
 namespace EmployeeBook.Controllers
@@ -26,12 +27,10 @@ namespace EmployeeBook.Controllers
         {
             return View();
         }
-        [HttpDelete]
-        public IActionResult DeleteUser([FromBody] string Id)
+        public IActionResult DeleteUser(Guid Id)
         {
-            var dataGuid = Guid.Parse(Id);
-            _dbContext.DeleteUser(dataGuid);
-            return Ok();
+            _dbContext.DeleteUser(Id);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
         [HttpGet]
         public IActionResult CreateUser()
@@ -79,21 +78,21 @@ namespace EmployeeBook.Controllers
             if (!_dbContext.CheckUserExist(userDto))
             {
                 _dbContext.CreateUser(user);
-                return RedirectToAction("CreateUser");
+                return RedirectToAction("Login");
             }
             ViewBag.ErrorMessage = "User already exists, login or sign up using a different user name";
             return View("CreateUser");
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult EditUser([FromQuery] string Data)
+        public IActionResult EditUser(Guid Id)
         {
-            Request.Query.TryGetValue("stringValue", out var stringValue);
             var editedUser = new UserEdit();
-            editedUser.Id = Guid.Parse(stringValue);
+            editedUser.Id = Id;
             return View(editedUser);
         }
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public IActionResult EditUser(UserEdit userDto)
         {
             var user = new User();

@@ -34,13 +34,12 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                <button onclick="ActivateUserDelete('@item.Id')"> Delete </button>
-                <button onclick="ActivateUserEdit('@item.Id')"> Edit </button>
+                @Html.ActionLink("Delete", "DeleteUser", "User", new {id = item.Id}, null)
+                @Html.ActionLink("Edit", "EditUser", "User", new {id = item.Id}, null)
             </td>
         </tr>
 }
     </tbody>
 </table>
 @section scripts{
-    <script src="~/js/site.js"></script>
 }

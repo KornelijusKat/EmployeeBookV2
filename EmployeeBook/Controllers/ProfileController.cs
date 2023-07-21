@@ -42,29 +42,29 @@ namespace EmployeeBook.Controllers
         public IActionResult EditPerson([FromQuery]string sdata)
         {
             Request.Query.TryGetValue("stringValue", out var stringValue);
-            var port = new Person();
+            var profile = new Person();
             string data = "";
             if (!string.IsNullOrEmpty(stringValue))
             {
-                port = _dbContext.GetProfileByProfileId(Guid.Parse(stringValue));
+                profile = _dbContext.GetProfileByProfileId(Guid.Parse(stringValue));
             }
             else
             {
                 data = Request.Cookies["Data"];
-                port = _dbContext.GetProfile(Guid.Parse(data));
+                profile = _dbContext.GetProfile(Guid.Parse(data));
             }
-            if(port.FirstName == null)
+            if(profile.FirstName == null)
             {
                 ViewBag.ErrorMessage = "First Create Profile";
                 return View("EditPerson");
             }
                 string fileName = "profile_picture.jpg";
-                var newFile = _imageService.ConvertToIFormFile(port.ProfilePicture, fileName);
-                var personDto = new PersonImage() { FirstName = port.FirstName, LastName = port.LastName, Email = port.Email, PersonCode = port.PersonCode, TelephoneNumber = port.TelephoneNumber, ProfilePicture = newFile };
+                var newFile = _imageService.ConvertToIFormFile(profile.ProfilePicture, fileName);
+                var personDto = new PersonImage() { FirstName = profile.FirstName, LastName = profile.LastName, Email = profile.Email, PersonCode = profile.PersonCode, TelephoneNumber = profile.TelephoneNumber, ProfilePicture = newFile };
             ViewModel newViewModel = new ViewModel()
             {
                 personImage = personDto,
-                Id = port.Id
+                Id = profile.Id
                 
             };
                 return View(newViewModel);
@@ -73,8 +73,8 @@ namespace EmployeeBook.Controllers
         public IActionResult EditPerson(ViewModel viewModel)
         { 
                 var byteImage = _imageService.GetByteArray(viewModel.personImage.ProfilePicture);
-            var l = new Person() { Id = viewModel.Id, FirstName = viewModel.personImage.FirstName, LastName = viewModel.personImage.LastName, Email = viewModel.personImage.Email, PersonCode = viewModel.personImage.PersonCode, TelephoneNumber = viewModel.personImage.TelephoneNumber, ProfilePicture = byteImage };
-            _dbContext.EditPerson(l);
+            var newProfile = new Person() { Id = viewModel.Id, FirstName = viewModel.personImage.FirstName, LastName = viewModel.personImage.LastName, Email = viewModel.personImage.Email, PersonCode = viewModel.personImage.PersonCode, TelephoneNumber = viewModel.personImage.TelephoneNumber, ProfilePicture = byteImage };
+            _dbContext.EditPerson(newProfile);
                 return RedirectToAction("ListOfProfiles");
         }
         [HttpGet]
@@ -98,17 +98,11 @@ namespace EmployeeBook.Controllers
             }
             return View("CreateProfile");
         }
-        [HttpDelete]
-        public IActionResult DeleteProfile([FromBody] string Id)
+        [HttpPost]
+        public IActionResult DeleteProfile(Guid Id)
         {
-            using (MySqlConnection sqlCon = new MySqlConnection(@"server = localhost; port = 3306;user=root; password=test;database=worker"))
-            {
-                sqlCon.Open();
-                MySqlCommand cmd = new MySqlCommand("DELETE FROM persons WHERE UserId = @UserId", sqlCon);
-                cmd.Parameters.AddWithValue("UserId", Guid.Parse(Id));
-                cmd.ExecuteNonQuery();
-            }
-            return RedirectToAction("Profile/ListOfProfiles");
+            _dbContext.DeleteProfile(Id);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

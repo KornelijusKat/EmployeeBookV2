@@ -18,5 +18,6 @@ namespace EmployeeBook.Models
         void EditUser(User user);
         User GetUserById(Guid Id);
         List<User> ShowUsers();
+        void DeleteProfile(Guid Id);
     }
 }

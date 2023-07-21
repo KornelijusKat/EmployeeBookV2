@@ -26,8 +26,10 @@
                 <div class="card-footer">
                     @if (User.IsInRole("Admin"))
                     {
-                        <button id="Delete" onclick="ActivateProfileDelete(`@Id`)">Delete</button>
-                        <button id="Edit" onclick="ActivateProfileEdit('@Id')">Edit</button>
+                         <form method="post" action="@Url.Action("DeleteProfile", "Profile", new { id = item.Id })">
+                     <button type="submit" class="btn btn-primary">Delete</button>
+                      <a href="@Url.Action("EditPerson", "Profile", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                        </form>                 
                     }
                 </div>
             </div>
@@ -36,5 +38,5 @@
    
 </div>
 @section scripts{
-    <script src="~/js/site.js"></script>
 }
+
