@@ -1,4 +1,6 @@
 ﻿using EmployeeBook.Dto;
+using System.ComponentModel.DataAnnotations;
+using static EmployeeBook.Models.ValidationsExtensions;
 
 namespace EmployeeBook.ViewModels
 {

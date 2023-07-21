@@ -39,40 +39,49 @@ namespace EmployeeBook.Controllers
             return View(port);
         }
         [HttpGet]
-        public IActionResult EditPerson([FromQuery]string sdata)
+        public IActionResult EditPerson(Guid Id)
         {
-            Request.Query.TryGetValue("stringValue", out var stringValue);
-            var profile = new Person();
-            string data = "";
-            if (!string.IsNullOrEmpty(stringValue))
-            {
-                profile = _dbContext.GetProfileByProfileId(Guid.Parse(stringValue));
-            }
-            else
-            {
-                data = Request.Cookies["Data"];
-                profile = _dbContext.GetProfile(Guid.Parse(data));
-            }
-            if(profile.FirstName == null)
-            {
-                ViewBag.ErrorMessage = "First Create Profile";
-                return View("EditPerson");
-            }
+                var profile = new Person();
+                string data = "";
+                if (Id != Guid.Empty)
+                {
+                    profile = _dbContext.GetProfileByProfileId(Id);
+                }
+                else
+                {
+                    data = Request.Cookies["Data"];
+                    profile = _dbContext.GetProfile(Guid.Parse(data));
+                }
+                if (profile.FirstName == null)
+                {
+                    ViewBag.ErrorMessage = "First Create Profile";
+                    return View("EditPerson");
+                }
                 string fileName = "profile_picture.jpg";
                 var newFile = _imageService.ConvertToIFormFile(profile.ProfilePicture, fileName);
                 var personDto = new PersonImage() { FirstName = profile.FirstName, LastName = profile.LastName, Email = profile.Email, PersonCode = profile.PersonCode, TelephoneNumber = profile.TelephoneNumber, ProfilePicture = newFile };
-            ViewModel newViewModel = new ViewModel()
-            {
-                personImage = personDto,
-                Id = profile.Id
-                
-            };
+                ViewModel newViewModel = new ViewModel()
+                {
+                    personImage = personDto,
+                    Id = profile.Id
+                };
                 return View(newViewModel);
         }
         [HttpPost]
         public IActionResult EditPerson(ViewModel viewModel)
-        { 
-                var byteImage = _imageService.GetByteArray(viewModel.personImage.ProfilePicture);
+        {
+            var allowedExtensions = new[] { ".jpg", ".png" };
+            if (viewModel.personImage.ProfilePicture != null)
+            {
+                var fileExtension = Path.GetExtension(viewModel.personImage.ProfilePicture.FileName)?.ToLower();
+
+                if (string.IsNullOrEmpty(fileExtension) || !allowedExtensions.Contains(fileExtension))
+                {
+                    ViewBag.ErrorMessage = "Wrong profile picture format";
+                    return View("EditPerson");
+                }
+            }
+            var byteImage = _imageService.GetByteArray(viewModel.personImage.ProfilePicture);
             var newProfile = new Person() { Id = viewModel.Id, FirstName = viewModel.personImage.FirstName, LastName = viewModel.personImage.LastName, Email = viewModel.personImage.Email, PersonCode = viewModel.personImage.PersonCode, TelephoneNumber = viewModel.personImage.TelephoneNumber, ProfilePicture = byteImage };
             _dbContext.EditPerson(newProfile);
                 return RedirectToAction("ListOfProfiles");

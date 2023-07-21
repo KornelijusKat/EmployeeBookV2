@@ -24,10 +24,6 @@ function ActivateUserDelete(data) {
             console.error('An error occurred while deleting the User:', error);
         });
 }
-let DeleteButton = document.querySelector('#Delete');
-DeleteButton.addEventListener('click', function (event) {
-    console.log("hello");
-})
 function ActivateProfileEdit(data) {
     console.log('hello');
     let stringValue = data;

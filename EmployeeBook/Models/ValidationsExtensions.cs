@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmployeeBook.Dto;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeBook.Models
 {
@@ -29,4 +30,5 @@ namespace EmployeeBook.Models
             }
         }
     }
+   
 }

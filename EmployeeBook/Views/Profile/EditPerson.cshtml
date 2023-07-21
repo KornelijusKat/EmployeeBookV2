@@ -33,22 +33,11 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.personImage.ProfilePicture)
-        @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file", onchange="validateFileINput(this)" })
-        @Html.ValidationMessageFor(model => model.personImage.ProfilePicture)
+        @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file"})
+        @Html.ValidationMessageFor(model => model.personImage.ProfilePicture, "", new { @class = "text-danger" })
+
     </div>
    
     <input type="submit" value="Save" class="btn btn-primary" />
    
 }
-<script>
-    function validateFileInput(input) {
-        var allowedExtensions = [".png", ".jpg"];
-        var fileExtension = input.value.substring(input.value.lastIndexOf('.')).toLowerCase();
-
-        if (allowedExtensions.indexOf(fileExtension) === -1) {
-            document.getElementById("FileInputErrorMessage").innerText = "This photo extension is not allowed, try jpg or png format";
-            input.value = "";
-            document.getElementById("FileInputErrorMessage").innerText = "";
-        }
-    }
-</script>
