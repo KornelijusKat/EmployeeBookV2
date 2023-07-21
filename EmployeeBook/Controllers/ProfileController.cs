@@ -53,6 +53,11 @@ namespace EmployeeBook.Controllers
                 data = Request.Cookies["Data"];
                 port = _dbContext.GetProfile(Guid.Parse(data));
             }
+            if(port.FirstName == null)
+            {
+                ViewBag.ErrorMessage = "First Create Profile";
+                return View("EditPerson");
+            }
                 string fileName = "profile_picture.jpg";
                 var newFile = _imageService.ConvertToIFormFile(port.ProfilePicture, fileName);
                 var personDto = new PersonImage() { FirstName = port.FirstName, LastName = port.LastName, Email = port.Email, PersonCode = port.PersonCode, TelephoneNumber = port.TelephoneNumber, ProfilePicture = newFile };
@@ -69,11 +74,6 @@ namespace EmployeeBook.Controllers
         { 
                 var byteImage = _imageService.GetByteArray(viewModel.personImage.ProfilePicture);
             var l = new Person() { Id = viewModel.Id, FirstName = viewModel.personImage.FirstName, LastName = viewModel.personImage.LastName, Email = viewModel.personImage.Email, PersonCode = viewModel.personImage.PersonCode, TelephoneNumber = viewModel.personImage.TelephoneNumber, ProfilePicture = byteImage };
-            if (l.FirstName == null)
-            {
-                ViewBag.ErrorMessage = "First Create Profile";
-                return View("EditPerson");
-            }
             _dbContext.EditPerson(l);
                 return RedirectToAction("ListOfProfiles");
         }
