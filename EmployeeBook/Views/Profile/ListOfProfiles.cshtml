@@ -13,7 +13,6 @@
         Id = item.Id;
         string imageBase64 = Convert.ToBase64String(item.ProfilePicture);
         string imageSrc = string.Format("data:image/png;base64,{0}", imageBase64);
-        TempData["Id"] = item.Id;
         <div class="card">
             <img src="@imageSrc" class="card-img-top" alt="Image">
             <div class="card-body">

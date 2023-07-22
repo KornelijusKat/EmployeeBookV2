@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration = new ConfigurationBuilder()
+           .SetBasePath(builder.Environment.ContentRootPath)
+           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+           .Build();
 // Add services to the container.
+builder.Services.AddSingleton(configuration);
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IDbContext, DbContext>();
+builder.Services.AddSingleton<IDbContext, DbContext>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddAuthentication("CookieAutho")

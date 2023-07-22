@@ -12,12 +12,16 @@ namespace EmployeeBook.Models
 {
     public class DbContext :IDbContext
     {
-        public string ConnectionString { get; set; } 
+        private readonly IConfiguration _configuration;
+        public string ConnectionString { get; set; }
+        public DbContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         private MySqlConnection GetConnection()
         {
-            var builder = WebApplication.CreateBuilder();
-            string connString = builder.Configuration.GetConnectionString("DefaultConnection");
-            return new MySqlConnection(connString);
+            return new MySqlConnection(_configuration.GetConnectionString("DefaultConnection"));
         }
         public Person GetProfile(Guid userId)
         {
@@ -37,7 +41,7 @@ namespace EmployeeBook.Models
                         person.PersonCode = reader.GetString("PersonCode");
                         person.TelephoneNumber = reader.GetString("TelephoneNumber");
                         person.Email = reader.GetString("Email");
-                        person.ProfilePicture = reader.GetFieldValue<byte[]>(6);                     
+                        person.ProfilePicture = reader.GetFieldValue<byte[]>(6);
                     }
                 }
             }
@@ -97,7 +101,6 @@ namespace EmployeeBook.Models
             {
                 sqlCon.Open();
                 string query = "INSERT INTO persons VALUES(@Id,@Username,@Password,@PasswordSalt,@Role)";
-
                 MySqlCommand cmd = new MySqlCommand("INSERT INTO persons (Id, FirstName, LastName, PersonCode, TelephoneNumber, Email, ProfilePicture, UserId) VALUES (@Id, @FirstName, @LastName,@PersonCode,@TelephoneNumber,@Email,@ProfilePicture,@UserId)", sqlCon);
                 cmd.Parameters.AddWithValue("Id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("FirstName", personImage.FirstName);
@@ -207,7 +210,7 @@ namespace EmployeeBook.Models
 
                     cmd.ExecuteNonQuery();
 
-           
+ 
                 }
             }
         }
@@ -259,7 +262,7 @@ namespace EmployeeBook.Models
                         user.PasswordSalt = reader.GetFieldValue<byte[]>(3);
                         user.Role = reader.GetFieldValue<string>(4);
                     }
-                }         
+                }
             }
             return user;
         }
@@ -306,7 +309,9 @@ namespace EmployeeBook.Models
                             Email = reader.GetString("Email"),
                             ProfilePicture = reader.GetFieldValue<byte[]>(6),
                         });
+
                     }
+  
                 }
             }
             return list;
@@ -324,12 +329,14 @@ namespace EmployeeBook.Models
                     {
                         list.Add(new User()
                         {
-                           Id=reader.GetGuid("Id"),
-                           Username = reader.GetString("Username"),
-                           Role = reader.GetString("Role")
+                            Id = reader.GetGuid("Id"),
+                            Username = reader.GetString("Username"),
+                            Role = reader.GetString("Role")
                         });
                     }
+                
                 }
+       ;
             }
             return list;
         }
@@ -344,8 +351,10 @@ namespace EmployeeBook.Models
 
                 if (existingUserCount > 0)
                 {
+            
                     return true;
                 }
+    
                 return false;
             }
         }
@@ -360,8 +369,10 @@ namespace EmployeeBook.Models
 
                 if (existingUserCount > 0)
                 {
+                
                     return true;
                 }
+ 
                 return false;
             }
         }
@@ -373,6 +384,7 @@ namespace EmployeeBook.Models
                 MySqlCommand cmd = new MySqlCommand("DELETE FROM persons WHERE Id = @Id", sqlCon);
                 cmd.Parameters.AddWithValue("Id", Id);
                 cmd.ExecuteNonQuery();
+ 
             }
         }
     }

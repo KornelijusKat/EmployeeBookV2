@@ -15,28 +15,24 @@ namespace EmployeeBook.Controllers
     [Authorize(Roles = "User, Admin")]
     public class ProfileController : Controller
     {
-        private IDbContext _dbContext;
-        private IImageService _imageService;
+        private readonly IDbContext _dbContext;
+        private readonly IImageService _imageService;
         public ProfileController(IDbContext dbContext, IImageService imageService)
         {
             _dbContext = dbContext;
             _imageService = imageService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         public IActionResult GetProfile()
         {
             string data = Request.Cookies["Data"];
             var dataGuid = Guid.Parse(data);
-            var port = _dbContext.GetProfile(dataGuid);
-            if(port.FirstName == null)
+            var profile = _dbContext.GetProfile(dataGuid);
+            if(profile.FirstName == null)
             {
                ViewBag.ErrorMessage = "Please first create profile";
                 return RedirectToAction("ListOfProfiles");
             }
-            return View(port);
+            return View(profile);
         }
         [HttpGet]
         public IActionResult EditPerson(Guid Id)
@@ -58,8 +54,7 @@ namespace EmployeeBook.Controllers
                     return View("EditPerson");
                 }
                 string fileName = "profile_picture.jpg";
-                var newFile = _imageService.ConvertToIFormFile(profile.ProfilePicture, fileName);
-                var personDto = new PersonImage() { FirstName = profile.FirstName, LastName = profile.LastName, Email = profile.Email, PersonCode = profile.PersonCode, TelephoneNumber = profile.TelephoneNumber, ProfilePicture = newFile };
+                var personDto = new PersonImage() { FirstName = profile.FirstName, LastName = profile.LastName, Email = profile.Email, PersonCode = profile.PersonCode, TelephoneNumber = profile.TelephoneNumber, ProfilePicture = null};
                 ViewModel newViewModel = new ViewModel()
                 {
                     personImage = personDto,
@@ -89,6 +84,7 @@ namespace EmployeeBook.Controllers
         [HttpGet]
         public IActionResult ListOfProfiles()
         {
+  
             return View(_dbContext.ShowProfiles());
         }
         public IActionResult CreateProfile(PersonImage personImage)
