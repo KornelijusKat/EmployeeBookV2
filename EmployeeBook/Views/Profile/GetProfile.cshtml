@@ -23,10 +23,10 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonCode)
+            @Html.DisplayNameFor(model => model.WorkerCode)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PersonCode)
+            @Html.DisplayFor(model => model.WorkerCode)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TelephoneNumber)
@@ -47,6 +47,7 @@
             <img src="@imageSrc" alt="Image" />
         </dd>
     </dl>
+    <a href="@Url.Action("EditPerson", "Profile", new { id = Model.Id })" class="btn btn-primary">Edit</a>
 </div>
 <div>
 </div>

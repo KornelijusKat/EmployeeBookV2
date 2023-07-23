@@ -6,7 +6,7 @@ namespace EmployeeBook.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PersonCode { get; set; }
+        public string WorkerCode { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
         public byte[] ProfilePicture { get; set; }

@@ -22,13 +22,15 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.PersonCode)
-        @Html.TextBoxFor(model => model.personImage.PersonCode, new { @class = "form-control" })
+        @Html.LabelFor(model => model.personImage.WorkerCode)
+        @Html.TextBoxFor(model => model.personImage.WorkerCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.personImage.WorkerCode)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.personImage.TelephoneNumber)
         @Html.TextBoxFor(model => model.personImage.TelephoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.personImage.TelephoneNumber)
     </div>
 
     <div class="form-group">
@@ -36,6 +38,5 @@
         @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file"})
     </div>
    
-    <input type="submit" value="Save" class="btn btn-primary" />
    
 }

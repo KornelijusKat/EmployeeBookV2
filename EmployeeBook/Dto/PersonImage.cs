@@ -6,13 +6,13 @@ namespace EmployeeBook.Dto
 {
     public class PersonImage
     {
-        [Required(AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "First Name is required.")]
         public string FirstName { get; set; }
         [Required(AllowEmptyStrings = false)]
         public string LastName { get; set; }
         [Required(AllowEmptyStrings = false)]
         [RegularExpression("^[0-9]{11}$", ErrorMessage = "Please enter 11 digit code")]
-        public string PersonCode { get; set; }
+        public string WorkerCode { get; set; }
         [Required(AllowEmptyStrings = false)]
         [RegularExpression(@"(86|\+3706)\d{3}\d{4}", ErrorMessage = "Wrong Format Telephone format, please use 86/+3706 format numbers")]
         public string TelephoneNumber { get; set; }

@@ -38,7 +38,7 @@ namespace EmployeeBook.Models
                         person.Id = reader.GetGuid("Id");
                         person.FirstName = reader.GetString("FirstName");
                         person.LastName = reader.GetString("LastName");
-                        person.PersonCode = reader.GetString("PersonCode");
+                        person.WorkerCode = reader.GetString("PersonCode");
                         person.TelephoneNumber = reader.GetString("TelephoneNumber");
                         person.Email = reader.GetString("Email");
                         person.ProfilePicture = reader.GetFieldValue<byte[]>(6);
@@ -62,7 +62,7 @@ namespace EmployeeBook.Models
                         person.Id = reader.GetGuid("Id");
                         person.FirstName = reader.GetString("FirstName");
                         person.LastName = reader.GetString("LastName");
-                        person.PersonCode = reader.GetString("PersonCode");
+                        person.WorkerCode = reader.GetString("PersonCode");
                         person.TelephoneNumber = reader.GetString("TelephoneNumber");
                         person.Email = reader.GetString("Email");
                         person.ProfilePicture = reader.GetFieldValue<byte[]>(6);
@@ -86,7 +86,7 @@ namespace EmployeeBook.Models
                         person.Id = reader.GetGuid("Id");
                         person.FirstName = reader.GetString("FirstName");
                         person.LastName = reader.GetString("LastName");
-                        person.PersonCode = reader.GetString("PersonCode");
+                        person.WorkerCode = reader.GetString("PersonCode");
                         person.TelephoneNumber = reader.GetString("TelephoneNumber");
                         person.Email = reader.GetString("Email");
                         person.ProfilePicture = reader.GetFieldValue<byte[]>(6);
@@ -105,7 +105,7 @@ namespace EmployeeBook.Models
                 cmd.Parameters.AddWithValue("Id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("FirstName", personImage.FirstName);
                 cmd.Parameters.AddWithValue("LastName", personImage.LastName);
-                cmd.Parameters.AddWithValue("PersonCode", personImage.PersonCode);
+                cmd.Parameters.AddWithValue("PersonCode", personImage.WorkerCode);
                 cmd.Parameters.AddWithValue("TelephoneNumber", personImage.TelephoneNumber);
                 cmd.Parameters.AddWithValue("Email", personImage.Email);
                 cmd.Parameters.AddWithValue("ProfilePicture", pic);
@@ -141,10 +141,10 @@ namespace EmployeeBook.Models
                         query += " TelephoneNumber = @TelephoneNumber,";
                         parameters.Add(new MySqlParameter("@TelephoneNumber", person.TelephoneNumber));
                     }
-                    if (!string.IsNullOrEmpty(person.PersonCode))
+                    if (!string.IsNullOrEmpty(person.WorkerCode))
                     {
                         query += " PersonCode = @PersonCode,";
-                        parameters.Add(new MySqlParameter("@PersonCode", person.PersonCode));
+                        parameters.Add(new MySqlParameter("@PersonCode", person.WorkerCode));
                     }
                     if (!string.IsNullOrEmpty(person.Email))
                     {
@@ -304,7 +304,7 @@ namespace EmployeeBook.Models
                             Id = reader.GetGuid("Id"),
                             FirstName = reader.GetString("FirstName"),
                             LastName = reader.GetString("LastName"),
-                            PersonCode = reader.GetString("PersonCode"),
+                            WorkerCode = reader.GetString("PersonCode"),
                             TelephoneNumber = reader.GetString("TelephoneNumber"),
                             Email = reader.GetString("Email"),
                             ProfilePicture = reader.GetFieldValue<byte[]>(6),
