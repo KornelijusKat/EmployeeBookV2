@@ -7,34 +7,34 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.FirstName)
+        @Html.LabelFor(model => model.personImage.FirstName, "First Name")
         @Html.TextBoxFor(model => model.personImage.FirstName, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.LastName)
+        @Html.LabelFor(model => model.personImage.LastName, "Last Name")
         @Html.TextBoxFor(model => model.personImage.LastName, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.Email)
+        @Html.LabelFor(model => model.personImage.Email,"Email")
         @Html.TextBoxFor(model => model.personImage.Email, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.WorkerCode)
+        @Html.LabelFor(model => model.personImage.WorkerCode, "Worker Code")
         @Html.TextBoxFor(model => model.personImage.WorkerCode, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.personImage.WorkerCode)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.TelephoneNumber)
+        @Html.LabelFor(model => model.personImage.TelephoneNumber,"Telephone Number")
         @Html.TextBoxFor(model => model.personImage.TelephoneNumber, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.personImage.TelephoneNumber)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.personImage.ProfilePicture)
+        @Html.LabelFor(model => model.personImage.ProfilePicture, "Profile Picture")
         @Html.TextBoxFor(model => model.personImage.ProfilePicture, new { type = "file", @class = "form-control-file"})
     </div>
     <input type="submit" value="Save" class="btn btn-primary" />

@@ -1,0 +1,41 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+obj/
+bin/
+
+# NuGet packages
+packages/
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Build results
+[Dd]ebug/
+[Rr]elease/
+obj/
+bin/
+# NuGet packages
+packages/
+
+
+# MSTest Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Build Folders
+[Bb]uild/
+
+# Roslyn cache directories
+*.ide/
+*.sln.cache
+

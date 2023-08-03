@@ -17,26 +17,26 @@
     <div class="form-group">
         @Html.LabelFor(model => model.LastName, "Last Name")
         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-inform" })
+        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.WorkerCode, "Worker Code")
         @Html.TextBoxFor(model => model.WorkerCode, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.WorkerCode, "", new { @class = "text-inform" })
+        @Html.ValidationMessageFor(model => model.WorkerCode, "", new { @class = "text-danger" })
 
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.TelephoneNumber, "Telephone Number")
+        @Html.LabelFor(model => model.TelephoneNumber, "Telephone Number")   
         @Html.TextBoxFor(model => model.TelephoneNumber, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.TelephoneNumber, "", new { @class = "text-inform" })
+        @Html.ValidationMessageFor(model => model.TelephoneNumber, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.Email, "Email")
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-inform" })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">

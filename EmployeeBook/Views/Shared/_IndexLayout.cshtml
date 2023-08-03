@@ -31,6 +31,16 @@
             </div>
         </nav>
     </header>
+    <div class="main-container">
+    <div class="side-nav">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="CreateUser">Create user</a>
+            </li>
+    </div>
     <div class="container">
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
         {
@@ -40,7 +50,7 @@
             @RenderBody()
         </main>
     </div>
-
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - EmployeeBook - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
